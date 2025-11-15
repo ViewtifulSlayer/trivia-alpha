@@ -1,119 +1,48 @@
-# Star Trek Trivia Question Generator
+# Star Trek Trivia Generator - Web Interface
 
-A web-based tool for generating Star Trek franchise trivia questions from Memory Alpha wiki data. Uses a bottom-up data modeling approach to extract structured character information and generate high-quality trivia questions.
+A simple, tag-based trivia question generator for Star Trek events.
 
-## Quick Start
+## Features
 
-### Web Interface (Recommended)
-The easiest way to use the trivia generator is via the [live web interface](https://viewtifulslayer.github.io/trivia-alpha/web/).
+- **Tag-based Filtering**: Filter questions by series, character, difficulty, question type, and source
+- **Question Navigation**: Browse questions with previous/next buttons or jump to random questions
+- **Answer Reveal**: Click to reveal answers when ready
+- **Export Options**: Export filtered questions as JSON or plain text
+- **Modular Design**: Structure ready for future additions (rounds, etc.)
 
-### Local Development
+## Local Development
+
+1. Serve the files using a local web server (required for JSON loading):
+
 ```bash
-# Serve the web interface locally
-cd web
+# Python 3
 python -m http.server 8000
-# Open http://localhost:8000
+
+# Node.js (if you have http-server installed)
+npx http-server
+
+# Or use any local web server
 ```
 
-### Data Extraction & Question Generation
-```bash
-# Extract a single character
-python src/convert_character_direct.py data/extracted/extracted_data.json "Character Name" output.json
+2. Open `http://localhost:8000` in your browser
 
-# Bulk extract characters
-python src/bulk_extract_characters.py data/extracted/extracted_data.json output_directory/
+## GitHub Pages Deployment
 
-# Generate questions from character data
-python src/generate_character_questions.py data/characters/ -o data/questions.json
-```
+1. Push the `web/` directory contents to your GitHub repository
+2. Enable GitHub Pages in repository settings
+3. Set source to `/` (root) or `/web` depending on your structure
+4. The `.nojekyll` file ensures Jekyll doesn't process the files
 
-## Project Structure
+## Data
 
-```
-trivia_alpha/
-├── src/              # Python data processing scripts
-│   ├── extract_structured_character_improved.py  # Main extraction script
-│   ├── generate_questions.py                     # Question generator
-│   └── ...
-├── data/             # Processed data files (organized by type)
-│   ├── raw/                                     # Source XML file
-│   ├── extracted/                               # Bulk extraction (292MB)
-│   ├── characters/                              # Character extractions
-│   ├── series/                                  # Series data (future)
-│   ├── species/                                 # Species data (future)
-│   ├── locations/                               # Location data (future)
-│   ├── organizations/                           # Organization data (future)
-│   ├── episodes/                                # Episode data (future)
-│   └── scans/                                   # Test/scan outputs
-├── docs/             # Documentation
-│   ├── ARCHITECTURE.md           # Complete architecture documentation
-│   └── TESTING_INSTRUCTIONS.md   # Testing guide for extraction script
-├── web/              # HTML/JavaScript frontend (planned, GitHub Pages)
-└── README.md         # This file
-```
+Questions are loaded from `data/questions.json`. To update:
+1. Run the question generator: `python src/generate_character_questions.py <character_dir> -o data/questions_mvp.json`
+2. Copy to web: `cp data/questions_mvp.json web/data/questions.json`
 
-## Documentation
+## Future Enhancements
 
-- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Complete system architecture, data structures, and design decisions
-- **[docs/TESTING_INSTRUCTIONS.md](docs/TESTING_INSTRUCTIONS.md)** - Guide for testing the extraction script
-- **Session Logs** - `sessions/current/` - Development history and decisions
-
-## Data Source
-
-- **Memory Alpha Wiki Export**: `data/raw/enmemoryalpha_pages_current.xml`
-- **Format**: MediaWiki XML export (version 0.11)
-- **Size**: ~447 MB
-- **Pages**: ~219,384 total pages
-- **Valid Pages**: ~63,068 pages (after filtering)
-
-## Current Status
-
-✅ **Milestone 1**: Project structure, XML examination  
-✅ **Milestone 2**: Data extraction pipeline (bulk extraction)  
-✅ **Milestone 3**: Structured character extraction (bottom-up approach)  
-✅ **Question Generation**: Production-ready system (15,927 questions, 100% verified)  
-✅ **Milestone 4**: Web app deployed to GitHub Pages with dark mode interface
-
-## Key Features
-
-- **Structured Character Extraction**: Extracts comprehensive character data (family, appearances, events, characteristics, objects)
-- **Question Generation**: Generates trivia questions with appropriate types (what, who, when, where, which) and difficulty levels
-- **Bottom-Up Modeling**: Template-driven extraction ensures quality and consistency
-- **Comprehensive Family Data**: Extracts all relationship types (spouse, children, in-laws, cousins, etc.)
-
-## Data Extraction Results
-
-### Bulk Extraction
-- **Pages Extracted**: 63,068 valid pages (from 219,384 total)
-- **Series Coverage**: 10 series (TNG: 13k, VOY: 11k, DS9: 11k pages)
-- **Characters Indexed**: 113,556 unique character references
-- **Output File**: `data/extracted/extracted_data.json` (~272 MB, ~82 MB compressed)
-
-### Structured Character Extraction
-- **Template**: `data/characters/molly.json` - Ideal target structure
-- **Extraction Script**: `src/extract_structured_character_improved.py`
-- **Tested Characters**: Molly O'Brien, Joseph Sisko, Lwaxana Troi, Miles O'Brien
-- **Fields Extracted**: Status, birth info, comprehensive family relationships, actors, appearances, notable events, characteristics, locations, objects
-- **Output Location**: `data/characters/*.json`
-
-### Data Pipeline
-1. **Bulk Extraction**: XML → `data/extracted/extracted_data.json` (categorizes all pages)
-2. **Categorization**: Filter bulk extraction by type (characters, species, locations, etc.)
-3. **Structured Extraction**: Extract deep data for specific entities → category subdirectories
-
-## Live Demo
-
-🌐 **Try it now**: [Star Trek Trivia Generator](https://viewtifulslayer.github.io/trivia-alpha/web/)
-
-The web interface features:
-- **15,927 verified trivia questions** from 616 characters
-- **Dark mode** interface (default)
-- **Advanced filtering** by series, character, difficulty, question type, and source
-- **Question navigation** with previous/next/random
-- **Export options** (JSON and text formats)
-
-## License
-
-**Tool**: MIT License  
-**Data source**: Memory Alpha (Creative Commons Attribution-NonCommercial 4.0)
+- **Rounds**: Pre-configured question sets by series
+- **Question Sets**: Save and load custom filter combinations
+- **Difficulty Weighting**: Adjust question selection based on difficulty distribution
+- **Print Mode**: Optimized layout for printing question sheets
 
