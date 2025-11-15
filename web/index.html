@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Trek Trivia Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Star Trek Trivia Generator</h1>
+            <p class="subtitle">Generate trivia questions from Memory Alpha data</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Filter Panel -->
+            <aside class="filters">
+                <h2>Filters</h2>
+                
+                <div class="filter-group">
+                    <label for="series-filter">Series</label>
+                    <select id="series-filter" multiple>
+                        <option value="">All Series</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+
+                <div class="filter-group">
+                    <label for="character-filter">Character</label>
+                    <select id="character-filter" multiple>
+                        <option value="">All Characters</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+
+                <div class="filter-group">
+                    <label for="difficulty-filter">Difficulty</label>
+                    <select id="difficulty-filter" multiple>
+                        <option value="">All Difficulties</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="type-filter">Question Type</label>
+                    <select id="type-filter" multiple>
+                        <option value="">All Types</option>
+                        <option value="what">What</option>
+                        <option value="who">Who</option>
+                        <option value="when">When</option>
+                        <option value="which">Which</option>
+                        <option value="how_many">How Many</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="source-filter">Source</label>
+                    <select id="source-filter" multiple>
+                        <option value="">All Sources</option>
+                        <option value="timeline_event">Timeline Events</option>
+                        <option value="appearances">Appearances</option>
+                        <option value="quote">Quotes</option>
+                        <option value="family">Family</option>
+                        <option value="attribute">Attributes</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>
+                        <input type="checkbox" id="verified-only">
+                        Verified questions only
+                    </label>
+                </div>
+
+                <div class="filter-group">
+                    <button id="clear-filters" class="btn-secondary">Clear All Filters</button>
+                </div>
+
+                <div class="filter-stats">
+                    <p><strong id="filtered-count">0</strong> of <strong id="total-count">0</strong> questions</p>
+                </div>
+            </aside>
+
+            <!-- Question Display Area -->
+            <main class="questions-area">
+                <div class="question-controls">
+                    <button id="prev-question" class="btn-nav" disabled>← Previous</button>
+                    <span class="question-counter">
+                        <span id="current-index">0</span> / <span id="total-filtered">0</span>
+                    </span>
+                    <button id="next-question" class="btn-nav" disabled>Next →</button>
+                    <button id="random-question" class="btn-secondary">Random</button>
+                </div>
+
+                <div class="question-card" id="question-card">
+                    <div class="question-header">
+                        <span class="question-meta" id="question-meta"></span>
+                    </div>
+                    <div class="question-text" id="question-text">
+                        Select filters to view questions
+                    </div>
+                    <div class="answer-section" id="answer-section" style="display: none;">
+                        <div class="answer-label">Answer:</div>
+                        <div class="answer-text" id="answer-text"></div>
+                    </div>
+                    <div class="question-actions">
+                        <button id="reveal-answer" class="btn-primary" style="display: none;">Reveal Answer</button>
+                        <button id="copy-question" class="btn-secondary" style="display: none;">Copy Question</button>
+                        <button id="copy-answer" class="btn-secondary" style="display: none;">Copy Answer</button>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <h3>Export</h3>
+                    <button id="export-json" class="btn-secondary">Export Filtered Questions (JSON)</button>
+                    <button id="export-text" class="btn-secondary">Export Filtered Questions (Text)</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Future: Rounds Section (modular addition) -->
+        <section class="rounds-section" id="rounds-section" style="display: none;">
+            <h2>Rounds</h2>
+            <p>Round-based question sets coming soon...</p>
+        </section>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+

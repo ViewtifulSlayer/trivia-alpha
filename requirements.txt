@@ -1,0 +1,13 @@
+# Star Trek Trivia Generator Dependencies
+
+# XML Processing (standard library, but listed for documentation)
+# xml.etree.ElementTree - built-in
+
+# Data processing (if needed for advanced parsing)
+# No external dependencies required for initial implementation
+# Python 3.7+ standard library is sufficient
+
+# Future potential dependencies (commented out for now):
+# mwparserfromhell>=0.6.0  # MediaWiki text parsing (if needed)
+# lxml>=4.6.0  # Faster XML parsing (optional optimization)
+
