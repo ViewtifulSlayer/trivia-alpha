@@ -47,9 +47,9 @@ Thumbs.db
 *.tmp
 
 # Large data files (keep XML source, ignore processed data during development)
-# But keep web/data/questions.json (needed for web interface)
+# But keep data/questions.json (needed for web interface in root)
 data/*.json
-!web/data/questions.json
+!data/questions.json
 data/*.db
 data/*.sqlite
 
