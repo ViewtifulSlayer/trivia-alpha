@@ -166,7 +166,7 @@ def extract_action_phrase(event_text: str, char_name: str) -> Optional[str]:
     return action_phrase
 
 
-def extract_event_summary(event_text: str, max_length: int = 120) -> str:
+def extract_event_summary(event_text: str, max_length: int = 300) -> str:
     """Extract a concise summary from an event description for "What happened" questions."""
     # Remove section headers like "===USS Enterprise-D==="
     text = re.sub(r'===.*?===', '', event_text)
@@ -176,16 +176,39 @@ def extract_event_summary(event_text: str, max_length: int = 120) -> str:
     # Remove redundant character names at start
     # (We'll pass char_name separately when needed)
     
-    # Take first sentence if it's reasonable length
+    # Try to get complete sentences up to max_length
     sentences = text.split('.')
-    if sentences and len(sentences[0]) < max_length and len(sentences[0]) > 20:
-        return sentences[0].strip()
+    result = []
+    current_length = 0
     
-    # Otherwise take first max_length chars, but try to end at word boundary
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        # Add period back (except for last sentence if we're truncating)
+        sentence_with_period = sentence + '.'
+        if current_length + len(sentence_with_period) <= max_length:
+            result.append(sentence)
+            current_length += len(sentence_with_period)
+        else:
+            # If this is the first sentence and it's too long, truncate it
+            if not result:
+                if len(sentence) > max_length:
+                    truncated = sentence[:max_length]
+                    last_space = truncated.rfind(' ')
+                    if last_space > max_length * 0.7:
+                        return truncated[:last_space].strip() + "..."
+                    return truncated.strip() + "..."
+            break
+    
+    if result:
+        return '. '.join(result) + '.'
+    
+    # Fallback: truncate at word boundary if no sentences found
     if len(text) > max_length:
         truncated = text[:max_length]
         last_space = truncated.rfind(' ')
-        if last_space > max_length * 0.7:  # If we can find a good break point
+        if last_space > max_length * 0.7:
             return truncated[:last_space].strip() + "..."
         return truncated.strip() + "..."
     
@@ -243,7 +266,7 @@ def generate_timeline_questions(character: Dict, timeline_sections: Dict) -> Lis
             # This works better for complex/full sentences
             if episode and series and content_type == 'event':
                 # Clean and remove redundant character name for answer
-                event_summary = extract_event_summary(event_text, 120)
+                event_summary = extract_event_summary(event_text, 300)
                 # Remove character name from start if redundant
                 event_summary = remove_redundant_character_name(event_summary, char_name)
                 
