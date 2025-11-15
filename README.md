@@ -1,6 +1,8 @@
-# Star Trek Trivia Generator - Web Interface
+# Star Trek Trivia Generator
 
-A simple, tag-based trivia question generator for Star Trek events.
+A web-based tool for generating Star Trek franchise trivia questions from Memory Alpha wiki data.
+
+🌐 **Live Demo**: [https://viewtifulslayer.github.io/trivia-alpha/](https://viewtifulslayer.github.io/trivia-alpha/)
 
 ## Features
 
